@@ -1,0 +1,12 @@
+git checkout development
+git checkout -b NameOfBranch
+git commit -m "Comment"
+git add .
+git push origin Android-version-change-7
+
+git checkout NameOfBranch - go to branch
+git reset --hard - to reset ALL
+git status - to check status
+git stash push - to push data on stos
+git stash pop - to push data from stos on branch
+git stash .. - to see all on stos

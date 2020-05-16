@@ -7,8 +7,8 @@ using UnityEngine.Android;
 
 public class GPSLocation : MonoBehaviour
 {
-    private float longitude;
-    private float latitude;
+    public float longitude;
+    public float latitude;
     GameObject dialog = null;
 
     public Text textLonLat;
@@ -80,13 +80,13 @@ public class GPSLocation : MonoBehaviour
         longitude = Input.location.lastData.longitude;
         latitude = Input.location.lastData.latitude;
 
-        textLonLat.text = "Longitude: " + longitude + "\n" + "Latitude: " + latitude;
+        textLonLat.text = "Lon: " + longitude + "\n" + "Lat: " + latitude;
         yield break;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
