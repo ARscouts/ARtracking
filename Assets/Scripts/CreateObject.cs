@@ -15,7 +15,7 @@ public class CreateObject : MonoBehaviour
         center.y = Player.position.y;
         center.z = Player.position.z;
 
-        Object1.position = new Vector3(center.x+2, 0, center.z+2);
+        Object1.position = new Vector3(center.x+1, 0, center.z+1);
         
     }
 

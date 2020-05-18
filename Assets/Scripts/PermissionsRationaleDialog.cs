@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-#if PLATFORM_ANDROID
 using UnityEngine.Android;
-#endif
 
 public class PermissionsRationaleDialog : MonoBehaviour
 {
@@ -11,13 +9,12 @@ public class PermissionsRationaleDialog : MonoBehaviour
 
     void DoMyWindow(int windowID)
     {
+        transform.localScale.Set(2.0f, 2.0f, 1.0f);
         GUI.Label(new Rect(10, 20, kDialogWidth - 20, kDialogHeight - 50), "Please let me use the location.");
         GUI.Button(new Rect(10, kDialogHeight - 30, 100, 20), "No");
         if (GUI.Button(new Rect(kDialogWidth - 110, kDialogHeight - 30, 100, 20), "Yes"))
         {
-#if PLATFORM_ANDROID
             Permission.RequestUserPermission(Permission.FineLocation);
-#endif
             windowOpen = false;
         }
     }

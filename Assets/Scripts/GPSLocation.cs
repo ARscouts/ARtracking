@@ -4,29 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Android;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class GPSLocation : MonoBehaviour
 {
-    public float longitude;
-    public float latitude;
+    public float startLongitude;
+    public float startLatitude;
     GameObject dialog = null;
 
     public Text textLonLat;
     // Start is called before the first frame update
     void Start()
     {
-#if PLATFORM_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermission(Permission.FineLocation);
             dialog = new GameObject();
         }
-#endif
     }
 
     void OnGUI()
     {
-#if PLATFORM_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             // The user denied permission to use the location.
@@ -40,7 +38,6 @@ public class GPSLocation : MonoBehaviour
         {
             Destroy(dialog); 
         }
-#endif
 
         StartCoroutine(StartLocationService());
     }
@@ -57,14 +54,14 @@ public class GPSLocation : MonoBehaviour
         }
 
         Input.location.Start();
-        float maxWait = 20;
-        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
+        float _maxWait = 20;
+        while (Input.location.status == LocationServiceStatus.Initializing && _maxWait > 0)
         {
             yield return new WaitForSeconds(1.0f);
-            maxWait--;
+            _maxWait--;
         }
         
-        if (maxWait <= 0)
+        if (_maxWait <= 0)
         {
             Debug.Log("Location service initiation timeout");
             textLonLat.text = "Location service initiation timeout";
@@ -77,11 +74,18 @@ public class GPSLocation : MonoBehaviour
             textLonLat.text = "Location service status: Failed";
         }
 
-        longitude = Input.location.lastData.longitude;
-        latitude = Input.location.lastData.latitude;
+        startLongitude = Input.location.lastData.longitude;
+        startLatitude = Input.location.lastData.latitude;
 
-        textLonLat.text = "Lon: " + longitude + "\n" + "Lat: " + latitude;
+        textLonLat.text = "Lon: " + startLongitude + "\n" + "Lat: " + startLatitude;
         yield break;
+    }
+
+    private bool UpdateLocation()
+    {
+        bool _retVal = false;
+
+        return _retVal;
     }
 
     // Update is called once per frame
