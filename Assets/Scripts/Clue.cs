@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public class Clue : MonoBehaviour
 {
+    public ClueRuntimeSet RuntimeSet;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,14 @@ public class GameController : MonoBehaviour
     void Update()
     {
         
+    }
+    private void OnEnable()
+    {
+        RuntimeSet.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        RuntimeSet.Remove(this);
     }
 }
