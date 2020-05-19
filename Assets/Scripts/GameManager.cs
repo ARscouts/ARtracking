@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -27,6 +28,12 @@ public class GameManager : MonoBehaviour
 
     public int requiredAmountOfClues;
 
+    //Zmiany dla funkcji IsClueNear()
+    public ClueRuntimeSet ClueMarkerSet;
+    public Text MessageBox;
+    public float maxDistanceNear = 10.0f;
+    public float SqLon, SqLat, SqDif;
+
     //public FloatVariable maxTrackingDistance; //Area of placed clues
 
     private int cluesFoundCount = 0;
@@ -51,7 +58,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
     }
 
     public void StartGame()
@@ -60,6 +66,7 @@ public class GameManager : MonoBehaviour
         GenerateWorld();
         currentGameState = GameState.GS_CLUE_TRACKING;
         //Game is in tracking state
+        IsClueNear();
     }
 
     public void GenerateWorld()
@@ -68,6 +75,23 @@ public class GameManager : MonoBehaviour
 
         //create game area
         GenerateClues();
+    }
+
+    public void IsClueNear()
+    {
+        for (int i = 0; i < clueCount.Value; i++)
+        {
+            SqLat = Mathf.Pow((currentLocation.Lat * scaleApprox.Lat - ClueMarkerSet.Items[i].Lat * scaleApprox.Lat), 2);
+            SqLon = Mathf.Pow((currentLocation.Lon * scaleApprox.Lat - ClueMarkerSet.Items[i].Lon * scaleApprox.Lat), 2);
+            SqDif = SqLat - SqLon;
+            if (SqDif < Mathf.Pow(maxDistanceNear, 2))
+            {
+                //MessageBox.text +="\n" +  i + "." + " " + Sq1 + "\n" + Sq2;
+                MessageBox.text += "\nDiffernce Sq =  " + SqDif + "\nObject: " + ClueMarkerSet.Items[i] + " IS NEAR!";
+            }
+
+        }
+
     }
 
     private void ApproximateDistance() //approximates distance between 0.001 degrees

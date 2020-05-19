@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClueSpawner : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class ClueSpawner : MonoBehaviour
     public IntVariable clueCount;
     public ClueMarker clueMarkerPrefab;
     // Start is called before the first frame update
+
+    public Text DebugText;
+
+
     void Start()
     {
         
@@ -23,11 +28,18 @@ public class ClueSpawner : MonoBehaviour
 
     public void GenerateClueObjects()
     {
-        for (int i = 0; i < clueCount.Value; i++)
+        for (int i = 1; i <= clueCount.Value; i++)
         {
             RandomInSquare(maxTrackingDistance.Value, out float Lat, out float Lon);
             ClueMarker cm = Instantiate(clueMarkerPrefab);
             cm.SetLonLat(Lon, Lat);
+            //--------Name and tag of created clues
+            cm.name = "ClueObject" + i;
+            cm.tag = "Clue";
+
+            //--------Debug Text (comment if no need)
+            DebugText.gameObject.SetActive(true);
+            DebugText.text += "\nClueObject" + i + "\nLat: " + cm.Lon + "\nLon: " + cm.Lat;
 
             //Debug.LogWarning("Added new clue locations - Lat: " + cm.Lat + " Lon: " + cm.Lon);
         }
