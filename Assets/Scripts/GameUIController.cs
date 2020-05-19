@@ -24,9 +24,4 @@ public class GameUIController : MonoBehaviour
     {
         
     }
-
-    public void resetLoadingBar()
-    {
-        fillAmount.Value = 0.0f;
-    }
 }

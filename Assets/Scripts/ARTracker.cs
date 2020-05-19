@@ -65,6 +65,7 @@ public class ARTracker : MonoBehaviour
             loadingBarFill.Value = 1.0f;
             clueSighted = false;
             ClueFoundEvent.Raise();
+            resetLoadingBar();
         }
     }
 
@@ -82,5 +83,10 @@ public class ARTracker : MonoBehaviour
                 LostSightEvent.Raise();
             }
         }
+    }
+
+    public void resetLoadingBar()
+    {
+        loadingBarFill.Value = 0.0f;
     }
 }
