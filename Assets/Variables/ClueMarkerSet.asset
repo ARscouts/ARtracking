@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a852de766636da489e596d6e1d94e81, type: 3}
-  m_Name: ClueLocationSet
+  m_Name: ClueMarkerSet
   m_EditorClassIdentifier: 
   Items: []

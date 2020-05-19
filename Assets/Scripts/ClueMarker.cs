@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Clue : MonoBehaviour
+public class ClueMarker : MonoBehaviour
 {
     public ClueRuntimeSet RuntimeSet;
-    
+    public float Lon;
+    public float Lat;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,5 +26,11 @@ public class Clue : MonoBehaviour
     private void OnDisable()
     {
         RuntimeSet.Remove(this);
+    }
+
+    public void SetLonLat(float lon, float lat)
+    {
+        Lon = lon;
+        Lat = lat;
     }
 }

@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ClueRuntimeSet : RuntimeSet<Clue> //For now it is not used
+public class ClueRuntimeSet : RuntimeSet<ClueMarker> //For now it is not used
 {}

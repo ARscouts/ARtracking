@@ -39,16 +39,21 @@ public class GPSLocation : MonoBehaviour
             // Display a message explaining why you need it with Yes/No buttons.
             // If the user says yes then present the request again
             // Display a dialog here.
-            dialog.AddComponent<PermissionsRationaleDialog>();
+            if (dialog != null) dialog.AddComponent<PermissionsRationaleDialog>();
             return;
         }
         else
         {
+            if (!locationServiceStarted)
+            {
+                StartCoroutine(StartLocationService());
+                locationServiceStarted = true;
+            }
             if (dialog != null)
             {
                 Destroy(dialog);
             }
-            StartCoroutine(StartLocationService());
+
         }
 #endif
     }
