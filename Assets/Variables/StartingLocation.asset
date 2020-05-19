@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53ae6386356e43a49987b314c1c6a60c, type: 3}
-  m_Name: GameManager
+  m_Script: {fileID: 11500000, guid: 08778216d190778409ab7c3b525fab82, type: 3}
+  m_Name: StartingLocation
   m_EditorClassIdentifier: 
+  Lon: 0
+  Lat: 0

@@ -9,6 +9,7 @@ public class PermissionsRationaleDialog : MonoBehaviour
 
     void DoMyWindow(int windowID)
     {
+        //TODO I'M UGLY, MAKE ME PRETTIER
         transform.localScale.Set(2.0f, 2.0f, 1.0f);
         GUI.Label(new Rect(10, 20, kDialogWidth - 20, kDialogHeight - 50), "Please let me use the location.");
         GUI.Button(new Rect(10, kDialogHeight - 30, 100, 20), "No");
