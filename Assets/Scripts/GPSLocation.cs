@@ -108,7 +108,7 @@ public class GPSLocation : MonoBehaviour
             currentLocation.Lat = Input.location.lastData.latitude;
         } else 
         {
-            Debug.LogWarning("Can't get current location: " + Input.location.status);
+            //Debug.LogWarning("Can't get current location: " + Input.location.status);
         }
 
     }

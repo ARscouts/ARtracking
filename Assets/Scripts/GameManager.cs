@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
             currentGameState = GameState.GS_ANIMAL_TRACKING;
             GenerateAnimalEvent.Raise();
         }
+        Debug.LogWarning("Clues found: " + cluesFoundCount);
     }
 
     public void AnimalFound()
