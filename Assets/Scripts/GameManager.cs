@@ -3,20 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager: MonoBehaviour
+public enum GameState
+{
+    GS_GAME_START,
+    GS_GAME_INITIALIZING,
+    GS_CLUE_TRACKING,
+    GS_ANIMAL_TRACKING,
+    GS_GAME_OVER
+}
+
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     public LocationVariable startLocation;
     public LocationVariable currentLocation;
     public LocationVariable scaleApprox; //approximated distance between 0.001 degrees in meters
+    public IntVariable clueCount;
 
-    public GameEvent GenerateClueEvent;
+    public GameEvent GenerateCluesEvent;
+    public GameEvent GenerateAnimalEvent;
+    public GameEvent GameOverEvent;
+
+    public int requiredAmountOfClues;
 
     //public FloatVariable maxTrackingDistance; //Area of placed clues
-    //public ClueRuntimeSet clueSet;
 
-    private readonly List<LocationVariable> clueLocations = new List<LocationVariable>();
+    private int cluesFoundCount = 0;
+    private GameState currentGameState; //current state of the game maybe will be useful
 
     private void Awake()
     {
@@ -32,7 +46,7 @@ public class GameManager: MonoBehaviour
 
     private void Start()
     {
-        
+        currentGameState = GameState.GS_GAME_START;
     }
 
     private void Update()
@@ -40,12 +54,20 @@ public class GameManager: MonoBehaviour
 
     }
 
+    public void StartGame()
+    {
+        currentGameState = GameState.GS_GAME_INITIALIZING;
+        GenerateWorld();
+        currentGameState = GameState.GS_CLUE_TRACKING;
+        //Game is in tracking state
+    }
+
     public void GenerateWorld()
     {
         ApproximateDistance();
 
         //create game area
-        GenerateClues(10); //hard coded clue amount
+        GenerateClues();
     }
 
     private void ApproximateDistance() //approximates distance between 0.001 degrees
@@ -82,17 +104,29 @@ public class GameManager: MonoBehaviour
         //Debug.LogWarning("Approx distance between 0.001 degrees Lon: " + scaleApprox.Lon);
     }
 
+    public void ClueFound()
+    {
+        cluesFoundCount++;
+        if (cluesFoundCount >= requiredAmountOfClues)
+        {
+            currentGameState = GameState.GS_ANIMAL_TRACKING;
+            GenerateAnimalEvent.Raise();
+        }
+    }
+
+    public void AnimalFound()
+    {
+        currentGameState = GameState.GS_GAME_OVER;
+        GameOverEvent.Raise();
+    }
+
     private double ToRadian(double degrees)
     {
         return degrees * (Math.PI / (double)180.0f);
     }
 
-    private void GenerateClues(int cluesAmount)
+    private void GenerateClues()
     {
-        //For now it generates clues randomly in a square area with sides perperticulat to world directions
-        for (int i = 0; i < cluesAmount; i++)
-        {
-            GenerateClueEvent.Raise();
-        }
+        GenerateCluesEvent.Raise();
     }
 }

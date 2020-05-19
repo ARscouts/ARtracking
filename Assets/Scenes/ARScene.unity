@@ -370,7 +370,12 @@ MonoBehaviour:
   startLocation: {fileID: 11400000, guid: 7371d1980d1e74b4691f8cc7480f813d, type: 2}
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
+  clueCount: {fileID: 11400000, guid: 1baff76a570160c4bb760635c6271e9d, type: 2}
   GenerateClueEvent: {fileID: 11400000, guid: 4206a7871f4a5a44e9a74282165a2335, type: 2}
+  GenerateAnimalEvent: {fileID: 11400000, guid: 02e850a8c131be145886e8f671edcbe3,
+    type: 2}
+  GameOverEvent: {fileID: 11400000, guid: 30f28cbadcc2f534abdd6608cbd8eb4b, type: 2}
+  requiredAmountOfClues: 0
 --- !u!4 &719470527
 Transform:
   m_ObjectHideFlags: 0
@@ -398,7 +403,7 @@ GameObject:
   - component: {fileID: 721450599}
   - component: {fileID: 721450598}
   m_Layer: 0
-  m_Name: GenerateWorld
+  m_Name: GameStartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -468,7 +473,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 719470526}
-        m_MethodName: GenerateWorld
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -589,6 +594,7 @@ MonoBehaviour:
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   maxTrackingDistance: {fileID: 11400000, guid: 53d734027f9f9e545abcda185bc2c022,
     type: 2}
+  clueCount: {fileID: 11400000, guid: 1baff76a570160c4bb760635c6271e9d, type: 2}
   clueMarkerPrefab: {fileID: 8240630923353296542, guid: 60d15f21da861244da0f2c3ad2ee399c,
     type: 3}
 --- !u!1 &812537841
@@ -636,6 +642,99 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLocation: {fileID: 11400000, guid: 7371d1980d1e74b4691f8cc7480f813d, type: 2}
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
+--- !u!1 &844953197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 844953201}
+  - component: {fileID: 844953200}
+  - component: {fileID: 844953199}
+  - component: {fileID: 844953198}
+  m_Layer: 0
+  m_Name: TestClueCube
+  m_TagString: Clue
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &844953198
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844953197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &844953199
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844953197}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &844953200
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844953197}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &844953201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844953197}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.756, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &943522615
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,7 +997,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Generate World()
+  m_Text: Start Game
 --- !u!222 &1154018685
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1403,6 +1502,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   Text: {fileID: 1541313405}
+--- !u!1 &1637851819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1637851821}
+  - component: {fileID: 1637851820}
+  m_Layer: 0
+  m_Name: ARTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1637851820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637851819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b131e6dc187674588b76c59f9c050b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 579910735}
+--- !u!4 &1637851821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637851819}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.397978, y: 0.9958696, z: -2.2296999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900243962
 GameObject:
   m_ObjectHideFlags: 0
