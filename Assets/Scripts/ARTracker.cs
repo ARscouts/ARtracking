@@ -5,7 +5,7 @@ using UnityEngine.XR.ARFoundation;
 
 public class ARTracker : MonoBehaviour
 {
-    public Camera camera;
+    public Camera Camera;
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
     public GameEvent ClueFoundEvent;
@@ -30,7 +30,7 @@ public class ARTracker : MonoBehaviour
         timeLastFrame = timeThisFrame;
         timeThisFrame = Time.timeSinceLevelLoad;
 
-        ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.transform.tag == "Clue")
@@ -62,7 +62,6 @@ public class ARTracker : MonoBehaviour
 
         if (loadingBarFill.Value >= 1.0f)
         {
-            loadingBarFill.Value = 1.0f;
             clueSighted = false;
             ClueFoundEvent.Raise();
             resetLoadingBar();
@@ -78,9 +77,9 @@ public class ARTracker : MonoBehaviour
 
             if (loadingBarFill.Value <= 0.0f)
             {
-                loadingBarFill.Value = 0.0f;
                 clueSighted = false;
                 LostSightEvent.Raise();
+                resetLoadingBar();
             }
         }
     }

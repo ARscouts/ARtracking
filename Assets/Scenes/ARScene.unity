@@ -935,7 +935,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844953197}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 0, z: 2.07}
+  m_LocalPosition: {x: 1.441, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1837,7 +1837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90b131e6dc187674588b76c59f9c050b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 579910735}
+  Camera: {fileID: 579910735}
   ClueInSightEvent: {fileID: 11400000, guid: 8cf47ce1e1d058349a40e893e12cabc5, type: 2}
   LostSightEvent: {fileID: 11400000, guid: 029773408aaa43c4483aacf8e9b39ef3, type: 2}
   ClueFoundEvent: {fileID: 11400000, guid: 0c543b6531d656b4a99af4d294bdb938, type: 2}
