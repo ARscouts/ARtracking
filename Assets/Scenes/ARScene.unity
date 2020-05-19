@@ -371,7 +371,7 @@ MonoBehaviour:
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   clueCount: {fileID: 11400000, guid: 1baff76a570160c4bb760635c6271e9d, type: 2}
-  GenerateClueEvent: {fileID: 11400000, guid: 4206a7871f4a5a44e9a74282165a2335, type: 2}
+  GenerateCluesEvent: {fileID: 11400000, guid: 4206a7871f4a5a44e9a74282165a2335, type: 2}
   GenerateAnimalEvent: {fileID: 11400000, guid: 02e850a8c131be145886e8f671edcbe3,
     type: 2}
   GameOverEvent: {fileID: 11400000, guid: 30f28cbadcc2f534abdd6608cbd8eb4b, type: 2}
@@ -568,7 +568,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 740523260}
-        m_MethodName: GenerateClueObject
+        m_MethodName: GenerateClueObjects
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
