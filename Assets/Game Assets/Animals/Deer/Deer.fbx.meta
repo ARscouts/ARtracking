@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6918aa4a438ecc2449ed58eb2e4f85eb
+guid: ecd351b446154b44894da384ff10c697
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
@@ -7,18 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: blinn1
-    second: {fileID: 2100000, guid: cbb51199a31db9246a066ba3f7007b0a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: blinn2
-    second: {fileID: 2100000, guid: dd47b958a5942e349ab0231bf274c8ab, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: blinn3
-    second: {fileID: 2100000, guid: edb40794600dd604a92efadbbe9e0012, type: 2}
+      name: Deer
+    second: {fileID: 2100000, guid: d0f39f30edca5a9488a95a2c89486b79, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -49,7 +39,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 50
+    globalScale: 10
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -95,7 +85,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.5
+    globalScale: 0.099999994
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
