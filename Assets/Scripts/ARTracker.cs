@@ -12,8 +12,9 @@ public class ARTracker : MonoBehaviour
     public GameManager GameManager;
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
-    public GameEvent ClueFoundEvent;
-    //public UnityEvent<ClueMarker> StartClueCapture;
+    public ClueMarkerPassableEvent ClueFoundEvent;
+    public ClueMarkerPassableEvent ClueCaptureBegin;
+
     public FloatVariable loadingBarFill;
     public ClueRuntimeSet clues;
     public LocationVariable startingLocation;
@@ -36,11 +37,13 @@ public class ARTracker : MonoBehaviour
     private bool vibrating = false;
 
     public Text DebugText;
+    public Text MessageBox;
 
     // Start is called before the first frame update
     void Start()
     {
         //arOrigin = FindObjectOfType<ARSessionOrigin>();
+        ResetLoadingBar();
     }
 
     // Update is called once per frame
@@ -55,7 +58,7 @@ public class ARTracker : MonoBehaviour
             UpdateClosestClue();
             if (distanceToClosestClue <= distanceToStartClueCapture)
             {
-                //StartClueCapture.Invoke(closestClue);
+                ClueCaptureBegin.Raise((ClueMarker)closestClue);
             }
             else if (distanceToClosestClue <= clueVibrationDistanceThreshold)
             {
@@ -64,7 +67,7 @@ public class ARTracker : MonoBehaviour
         }
         else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
         {
-
+            MessageBox.text = "A clue is very near!";
             //----------- Here we look for clue objects via raycast
             ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -98,10 +101,12 @@ public class ARTracker : MonoBehaviour
             float interval = distanceToClosestClue / clueVibrationDistanceThreshold;
             WaitForSeconds wait = new WaitForSeconds(interval);
             float t;
-
             for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
             {
+                MessageBox.text = "Vibrating!";
                 Handheld.Vibrate();
+                yield return wait;
+                MessageBox.text = "";
                 yield return wait;
             }
 
@@ -161,8 +166,8 @@ public class ARTracker : MonoBehaviour
         if (loadingBarFill.Value >= 1.0f)
         {
             clueSighted = false;
-            ClueFoundEvent.Raise();
-            resetLoadingBar();
+            ClueFoundEvent.Raise(closestClue);
+            ResetLoadingBar();
         }
     }
 
@@ -177,12 +182,12 @@ public class ARTracker : MonoBehaviour
             {
                 clueSighted = false;
                 LostSightEvent.Raise();
-                resetLoadingBar();
+                ResetLoadingBar();
             }
         }
     }
 
-    public void resetLoadingBar()
+    public void ResetLoadingBar()
     {
         loadingBarFill.Value = 0.0f;
     }

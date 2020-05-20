@@ -109,10 +109,10 @@ public class GPSLocation : MonoBehaviour
             currentLocation.Lon = Input.location.lastData.longitude;
             currentLocation.Lat = Input.location.lastData.latitude;
             //Debug.LogWarning("Got Location " + currentLocation.Lon + " " + currentLocation.Lat);
-            DebugText.text = (currentLocation.Lon * 1000) + "\n" + (currentLocation.Lat * 1000);
+            //DebugText.text = (currentLocation.Lon * 1000) + "\n" + (currentLocation.Lat * 1000);
         } else 
         {
-            Debug.LogWarning("Can't get current location: " + Input.location.status);
+            //Debug.LogWarning("Can't get current location: " + Input.location.status);
         }
 
     }
