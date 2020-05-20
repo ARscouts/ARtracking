@@ -9,17 +9,20 @@ public enum GameState
     GS_GAME_START,
     GS_GAME_INITIALIZING,
     GS_CLUE_TRACKING,
+    GS_CLOSE_TO_CLUE,
     GS_ANIMAL_TRACKING,
+    GS_CLOSE_TO_ANIMAL,
     GS_GAME_OVER
 }
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameState CurrentGameState { get; set; } //AFTER DEBUGGING SET -> PRIVATE SET
 
     public LocationVariable startLocation;
     public LocationVariable currentLocation;
-    public LocationVariable scaleApprox; //approximated distance between 0.001 degrees in meters
+    public LocationVariable scaleApprox;
     public IntVariable clueCount;
 
     public GameEvent GenerateCluesEvent;
@@ -30,14 +33,11 @@ public class GameManager : MonoBehaviour
 
     //Zmiany dla funkcji IsClueNear()
     public ClueRuntimeSet ClueMarkerSet;
-    public Text MessageBox;
-    public float maxDistanceNear = 10.0f;
-    public float SqLon, SqLat, SqDif;
+    public Text DebugText;
 
     //public FloatVariable maxTrackingDistance; //Area of placed clues
 
-    private int cluesFoundCount = 0;
-    private GameState currentGameState; //current state of the game maybe will be useful
+    private int cluesFoundCount = 0; //current state of the game maybe will be useful
 
     private void Awake()
     {
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currentGameState = GameState.GS_GAME_START;
+        CurrentGameState = GameState.GS_GAME_START;
     }
 
     private void Update()
@@ -62,11 +62,12 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        currentGameState = GameState.GS_GAME_INITIALIZING;
+        CurrentGameState = GameState.GS_GAME_INITIALIZING;
+
+        startLocation.SetValue(currentLocation);
         GenerateWorld();
-        currentGameState = GameState.GS_CLUE_TRACKING;
+        CurrentGameState = GameState.GS_CLUE_TRACKING;
         //Game is in tracking state
-        IsClueNear();
     }
 
     public void GenerateWorld()
@@ -76,25 +77,7 @@ public class GameManager : MonoBehaviour
         //create game area
         GenerateClues();
     }
-
-    public void IsClueNear()
-    {
-        for (int i = 0; i < clueCount.Value; i++)
-        {
-           
-            SqLat = Mathf.Pow((currentLocation.Lat * scaleApprox.Lat - ClueMarkerSet.Items[i].Lat * scaleApprox.Lat), 2);
-            SqLon = Mathf.Pow((currentLocation.Lon * scaleApprox.Lat - ClueMarkerSet.Items[i].Lon * scaleApprox.Lat), 2);
-
-            if (SqDif < Mathf.Pow(maxDistanceNear, 2))
-            {
-                //MessageBox.text +="\n" +  i + "." + " " + Sq1 + "\n" + Sq2;
-                MessageBox.text += "\nDiffernce Sq =  " + SqDif + "\nObject: " + ClueMarkerSet.Items[i] + " IS NEAR!";
-            }
-
-        }
-
-    }
-
+    
     private void ApproximateDistance() //approximates distance between 0.001 degrees
     {
         //REFACTOR ME - maybe move somewhere else?
@@ -134,7 +117,7 @@ public class GameManager : MonoBehaviour
         cluesFoundCount++;
         if (cluesFoundCount >= requiredAmountOfClues)
         {
-            currentGameState = GameState.GS_ANIMAL_TRACKING;
+            CurrentGameState = GameState.GS_ANIMAL_TRACKING;
             GenerateAnimalEvent.Raise();
         }
         Debug.LogWarning("Clues found: " + cluesFoundCount);
@@ -142,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     public void AnimalFound()
     {
-        currentGameState = GameState.GS_GAME_OVER;
+        CurrentGameState = GameState.GS_GAME_OVER;
         GameOverEvent.Raise();
     }
 

@@ -1,27 +1,43 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
 public class ARTracker : MonoBehaviour
 {
     public Camera Camera;
+    public GameManager GameManager;
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
     public GameEvent ClueFoundEvent;
     public FloatVariable loadingBarFill;
-    public float timeToAquireClue;
+    public ClueRuntimeSet clues;
+    public LocationVariable startingLocation;
+    public LocationVariable currentLocation;
+    public LocationVariable scaleApprox;
 
-    private ARSessionOrigin arOrigin;
+    public float timeToAquireClue;
+    public float clueVibrationThreshold;
+    //public float vibrationInterval;
+
+   // private ARSessionOrigin arOrigin;
     private Ray ray;
     private bool clueSighted = false;
     private float timeLastFrame;
     private float timeThisFrame;
+    private float distanceToClosestClue; //distance to closest clue power of 2
+    private ClueMarker closestClue;
+
+    private bool vibrating = false;
+
+    public Text DebugText;
 
     // Start is called before the first frame update
     void Start()
     {
-        arOrigin = FindObjectOfType<ARSessionOrigin>();
+        //arOrigin = FindObjectOfType<ARSessionOrigin>();
     }
 
     // Update is called once per frame
@@ -30,23 +46,99 @@ public class ARTracker : MonoBehaviour
         timeLastFrame = timeThisFrame;
         timeThisFrame = Time.timeSinceLevelLoad;
 
-        ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        //----------- Here we look for closest clue
+        if (GameManager.CurrentGameState == GameState.GS_CLUE_TRACKING)
         {
-            if (hit.transform.tag == "Clue")
+            UpdateClosestClue();
+
+            if (distanceToClosestClue <= clueVibrationThreshold)
             {
-                InSightAction();
+                StartCoroutine(Vibrate());
+            }
+        }
+        else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
+        {
+
+            //----------- Here we look for clue objects via raycast
+            ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                if (hit.transform.CompareTag("Clue"))
+                {
+                    InSightAction();
+                }
+                else
+                {
+
+                    NotInSightAction();
+
+                }
             }
             else
             {
-                
                 NotInSightAction();
-             
             }
-        } else
-        {
-            NotInSightAction();
         }
+
+        //----------- Take the closest clue and vibrate depending on distance
+    }
+
+    private IEnumerator Vibrate()
+    {
+        if (vibrating) yield break;
+        else
+        {
+            vibrating = true;
+            float interval = distanceToClosestClue / clueVibrationThreshold;
+            WaitForSeconds wait = new WaitForSeconds(interval);
+            float t;
+
+            for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
+            {
+                Handheld.Vibrate();
+                yield return wait;
+            }
+
+            //yield return new WaitForSeconds(2f);
+
+            //for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
+            //{
+            //    Handheld.Vibrate();
+            //    yield return wait;
+            //}
+            vibrating = false;
+            yield break;
+        }
+    }
+
+    private void UpdateClosestClue()
+    {
+        float closestDistance2 = -1.0f;
+
+        float currentLatInMeters = (currentLocation.Lat - startingLocation.Lat) * scaleApprox.Lat;
+        float currentLonInMeters = (currentLocation.Lon - startingLocation.Lon) * scaleApprox.Lon;
+
+        DebugText.text = "Clue distances: "; //----------- ONLY FOR DEBUG
+
+        foreach (ClueMarker cm in clues.Items)
+        {
+            float latDist = cm.LatInMeters - currentLatInMeters;
+            float lonDist = cm.LonInMeters - currentLonInMeters;
+            float dist2 = lonDist * lonDist + latDist * latDist;
+
+            //----------- ONLY FOR DEBUG
+            float sqrtdist = (float)Math.Sqrt(dist2);
+            DebugText.text += "\n" + sqrtdist;
+
+            if (dist2 < closestDistance2 || closestDistance2 == -1)
+            {
+                closestDistance2 = dist2;
+                closestClue = cm;
+            }
+        };
+
+        distanceToClosestClue = (float)Math.Sqrt(closestDistance2);
+        DebugText.text += "\nClosest distance = " + distanceToClosestClue; //DEBUG TEXT
     }
 
     private void InSightAction()

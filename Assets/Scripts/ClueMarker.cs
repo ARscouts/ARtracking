@@ -7,6 +7,9 @@ public class ClueMarker : MonoBehaviour
     public ClueRuntimeSet RuntimeSet;
     public float Lon;
     public float Lat;
+    public float LonInMeters;
+    public float LatInMeters;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +21,7 @@ public class ClueMarker : MonoBehaviour
     {
         
     }
+
     private void OnEnable()
     {
         RuntimeSet.Add(this);
@@ -32,5 +36,13 @@ public class ClueMarker : MonoBehaviour
     {
         Lon = lon;
         Lat = lat;
+    }
+
+    public void SetLonLat(float lon, float lat, float lonInMeters, float latInMeters)
+    {
+        Lon = lon;
+        Lat = lat;
+        LonInMeters = lonInMeters;
+        LatInMeters = latInMeters;
     }
 }

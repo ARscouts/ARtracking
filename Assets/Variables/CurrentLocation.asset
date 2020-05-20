@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08778216d190778409ab7c3b525fab82, type: 3}
   m_Name: CurrentLocation
   m_EditorClassIdentifier: 
-  Lon: 0
-  Lat: 0
+  Lon: 54
+  Lat: 18.34999

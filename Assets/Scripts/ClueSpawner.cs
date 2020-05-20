@@ -12,8 +12,7 @@ public class ClueSpawner : MonoBehaviour
     public ClueMarker clueMarkerPrefab;
     // Start is called before the first frame update
 
-    public Text DebugText;
-
+    //public Text DebugText;
 
     void Start()
     {
@@ -30,23 +29,28 @@ public class ClueSpawner : MonoBehaviour
     {
         for (int i = 1; i <= clueCount.Value; i++)
         {
-            RandomInSquare(maxTrackingDistance.Value, out float Lat, out float Lon);
+            RandomInSquare(maxTrackingDistance.Value, out float LatInMeters, out float LonInMeters);
             ClueMarker cm = Instantiate(clueMarkerPrefab);
-            cm.SetLonLat(Lon, Lat);
+            cm.SetLonLat(LonInMeters / scaleApprox.Lon + currentLocation.Lon, 
+                LatInMeters / scaleApprox.Lon + currentLocation.Lat,
+                LonInMeters,
+                LatInMeters);
             //--------Name and tag of created clues
             cm.name = "ClueObject" + i;
-            cm.tag = "Clue";
 
             //--------Debug Text (comment if no need)
-            DebugText.text += "\nClueObject" + i + "\nLat: " + cm.Lon + "\nLon: " + cm.Lat;
+
+            //DebugText.gameObject.SetActive(true);
+            //DebugText.text += "\nClueObject" + i + "\nLat: " + cm.Lon + "\nLon: " + cm.Lat;
+
 
             //Debug.LogWarning("Added new clue locations - Lat: " + cm.Lat + " Lon: " + cm.Lon);
         }
     }
 
-    private void RandomInSquare(float maxTrackingDistance, out float lat, out float lon) //generates random coordinates in square area
+    private void RandomInSquare(float maxTrackingDistance, out float LatInMeters, out float LonInMeters) //generates random coordinates in square area
     {
-        lat = Random.Range(-maxTrackingDistance, maxTrackingDistance) / scaleApprox.Lat + currentLocation.Lat;
-        lon = Random.Range(-maxTrackingDistance, maxTrackingDistance) / scaleApprox.Lon + currentLocation.Lon;
+        LatInMeters = Random.Range(-maxTrackingDistance, maxTrackingDistance);
+        LonInMeters = Random.Range(-maxTrackingDistance, maxTrackingDistance);
     }
 }
