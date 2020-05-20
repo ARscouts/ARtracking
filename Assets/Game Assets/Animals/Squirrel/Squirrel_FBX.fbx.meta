@@ -1,37 +1,24 @@
 fileFormatVersion: 2
-guid: 4a8962d46836a62408067c9480230e96
+guid: 6918aa4a438ecc2449ed58eb2e4f85eb
 ModelImporter:
   serializedVersion: 19300
-  internalIDToNameTable:
-  - first:
-      74: 896563693915748438
-    second: root.001|root|Unreal Take|Base Layer
-  - first:
-      74: -8461946442489211701
-    second: root.001|root|Unreal Take|Base Layer.001
-  - first:
-      74: 3035592086960910295
-    second: root.001|root|Unreal Take|Base Layer.002
-  - first:
-      74: 3115794431290243799
-    second: root.001|root|Unreal Take|Base Layer.003
-  - first:
-      74: 1641917859571356477
-    second: root.001|root|Unreal Take|Base Layer.004
-  - first:
-      74: -1104955603931092053
-    second: root.001|Waking Up
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_Fox
-    second: {fileID: 2100000, guid: a01d919339ab6854f8143c3efb731336, type: 2}
+      name: blinn1
+    second: {fileID: 2100000, guid: cbb51199a31db9246a066ba3f7007b0a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_FoxFur
-    second: {fileID: 2100000, guid: f20432232e557d640a6c6d2f5eb0e701, type: 2}
+      name: blinn2
+    second: {fileID: 2100000, guid: dd47b958a5942e349ab0231bf274c8ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn3
+    second: {fileID: 2100000, guid: edb40794600dd604a92efadbbe9e0012, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -86,7 +73,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 0
+    useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
