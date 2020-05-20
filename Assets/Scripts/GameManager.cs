@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         //create game area
         GenerateClues();
     }
-
+    
     private void ApproximateDistance() //approximates distance between 0.001 degrees
     {
         //REFACTOR ME - maybe move somewhere else?

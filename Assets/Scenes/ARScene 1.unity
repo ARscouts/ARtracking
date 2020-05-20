@@ -605,7 +605,11 @@ MonoBehaviour:
   GameOverEvent: {fileID: 11400000, guid: 30f28cbadcc2f534abdd6608cbd8eb4b, type: 2}
   requiredAmountOfClues: 5
   ClueMarkerSet: {fileID: 11400000, guid: 251581ba89c9df84abe0e887c18b00a5, type: 2}
-  DebugText: {fileID: 2099057527}
+  MessageBox: {fileID: 101064267}
+  maxDistanceNear: 0.0001
+  SqLon: 0
+  SqLat: 0
+  SqDif: 0
 --- !u!4 &719470527
 Transform:
   m_ObjectHideFlags: 0
@@ -642,6 +646,17 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1637851819}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -938,6 +953,7 @@ MonoBehaviour:
   clueCount: {fileID: 11400000, guid: 1baff76a570160c4bb760635c6271e9d, type: 2}
   clueMarkerPrefab: {fileID: 8240630923353296542, guid: 60d15f21da861244da0f2c3ad2ee399c,
     type: 3}
+  DebugText: {fileID: 2099057527}
 --- !u!1 &812537841
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,7 +999,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLocation: {fileID: 11400000, guid: 7371d1980d1e74b4691f8cc7480f813d, type: 2}
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
-  DebugText: {fileID: 2099057527}
 --- !u!1 &844953197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2048,19 +2063,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 579910735}
-  GameManager: {fileID: 719470526}
   ClueInSightEvent: {fileID: 11400000, guid: 8cf47ce1e1d058349a40e893e12cabc5, type: 2}
   LostSightEvent: {fileID: 11400000, guid: 029773408aaa43c4483aacf8e9b39ef3, type: 2}
   ClueFoundEvent: {fileID: 11400000, guid: 0c543b6531d656b4a99af4d294bdb938, type: 2}
   loadingBarFill: {fileID: 11400000, guid: 2af7a085ba1e9ff4abcd32d49ca23dda, type: 2}
-  clues: {fileID: 11400000, guid: 251581ba89c9df84abe0e887c18b00a5, type: 2}
-  startingLocation: {fileID: 11400000, guid: 7371d1980d1e74b4691f8cc7480f813d, type: 2}
-  currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
-  scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   timeToAquireClue: 3
-  clueVibrationThreshold: 15
-  vibrationInterval: 1
-  DebugText: {fileID: 2099057527}
 --- !u!4 &1637851821
 Transform:
   m_ObjectHideFlags: 0
@@ -2129,7 +2136,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900243962}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab0e80cee9cc1d44928bfe488dd1e2d, type: 3}
   m_Name: 
@@ -2143,7 +2150,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900243962}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
