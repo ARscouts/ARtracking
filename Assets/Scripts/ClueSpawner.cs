@@ -38,7 +38,6 @@ public class ClueSpawner : MonoBehaviour
             cm.tag = "Clue";
 
             //--------Debug Text (comment if no need)
-            DebugText.gameObject.SetActive(true);
             DebugText.text += "\nClueObject" + i + "\nLat: " + cm.Lon + "\nLon: " + cm.Lat;
 
             //Debug.LogWarning("Added new clue locations - Lat: " + cm.Lat + " Lon: " + cm.Lon);

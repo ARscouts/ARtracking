@@ -81,9 +81,10 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < clueCount.Value; i++)
         {
+           
             SqLat = Mathf.Pow((currentLocation.Lat * scaleApprox.Lat - ClueMarkerSet.Items[i].Lat * scaleApprox.Lat), 2);
             SqLon = Mathf.Pow((currentLocation.Lon * scaleApprox.Lat - ClueMarkerSet.Items[i].Lon * scaleApprox.Lat), 2);
-            SqDif = SqLat - SqLon;
+
             if (SqDif < Mathf.Pow(maxDistanceNear, 2))
             {
                 //MessageBox.text +="\n" +  i + "." + " " + Sq1 + "\n" + Sq2;
