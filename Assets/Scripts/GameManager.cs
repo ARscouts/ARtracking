@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public enum GameState
 {
@@ -18,6 +19,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    private ARSessionOrigin arOrigin;
     public GameState CurrentGameState { get; set; } //AFTER DEBUGGING SET -> PRIVATE SET
 
     public LocationVariable startLocation;
@@ -137,5 +139,12 @@ public class GameManager : MonoBehaviour
     private void GenerateClues()
     {
         GenerateCluesEvent.Raise();
+    }
+
+    public void StartClueCapturePhase(ClueMarker clue)
+    {
+        CurrentGameState = GameState.GS_CLOSE_TO_CLUE;
+
+        //Spawn clue
     }
 }

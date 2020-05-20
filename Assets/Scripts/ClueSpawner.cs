@@ -10,6 +10,7 @@ public class ClueSpawner : MonoBehaviour
     public FloatVariable maxTrackingDistance;
     public IntVariable clueCount;
     public ClueMarker clueMarkerPrefab;
+    //public ClueModel clueModelPrefab;
     // Start is called before the first frame update
 
     //public Text DebugText;

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -12,6 +13,7 @@ public class ARTracker : MonoBehaviour
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
     public GameEvent ClueFoundEvent;
+    //public UnityEvent<ClueMarker> StartClueCapture;
     public FloatVariable loadingBarFill;
     public ClueRuntimeSet clues;
     public LocationVariable startingLocation;
@@ -19,7 +21,8 @@ public class ARTracker : MonoBehaviour
     public LocationVariable scaleApprox;
 
     public float timeToAquireClue;
-    public float clueVibrationThreshold;
+    public float clueVibrationDistanceThreshold;
+    public float distanceToStartClueCapture; //should be much smaller than clueVibrationDistanceThreshold
     //public float vibrationInterval;
 
    // private ARSessionOrigin arOrigin;
@@ -50,8 +53,11 @@ public class ARTracker : MonoBehaviour
         if (GameManager.CurrentGameState == GameState.GS_CLUE_TRACKING)
         {
             UpdateClosestClue();
-
-            if (distanceToClosestClue <= clueVibrationThreshold)
+            if (distanceToClosestClue <= distanceToStartClueCapture)
+            {
+                //StartClueCapture.Invoke(closestClue);
+            }
+            else if (distanceToClosestClue <= clueVibrationDistanceThreshold)
             {
                 StartCoroutine(Vibrate());
             }
@@ -89,7 +95,7 @@ public class ARTracker : MonoBehaviour
         else
         {
             vibrating = true;
-            float interval = distanceToClosestClue / clueVibrationThreshold;
+            float interval = distanceToClosestClue / clueVibrationDistanceThreshold;
             WaitForSeconds wait = new WaitForSeconds(interval);
             float t;
 

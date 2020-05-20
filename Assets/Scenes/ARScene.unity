@@ -1586,7 +1586,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1533912212
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1833,8 +1833,8 @@ MonoBehaviour:
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   timeToAquireClue: 3
-  clueVibrationThreshold: 15
-  vibrationInterval: 1
+  clueVibrationDistanceThreshold: 30
+  distanceToStartClueCapture: 10
   DebugText: {fileID: 2099057527}
 --- !u!4 &1637851821
 Transform:
