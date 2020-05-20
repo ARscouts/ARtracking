@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2900fc88e0ad56243a7fdbc9786a13c6, type: 3}
   m_Name: MaxTrackingDistance
   m_EditorClassIdentifier: 
-  Value: 3
+  Value: 20

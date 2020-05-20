@@ -832,6 +832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLocation: {fileID: 11400000, guid: 7371d1980d1e74b4691f8cc7480f813d, type: 2}
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
+  DebugText: {fileID: 2099057527}
 --- !u!1 &844953197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,7 +1833,7 @@ MonoBehaviour:
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   timeToAquireClue: 3
-  clueVibrationThreshold: 1
+  clueVibrationThreshold: 15
   vibrationInterval: 1
   DebugText: {fileID: 2099057527}
 --- !u!4 &1637851821

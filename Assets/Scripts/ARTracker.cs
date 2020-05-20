@@ -20,7 +20,7 @@ public class ARTracker : MonoBehaviour
 
     public float timeToAquireClue;
     public float clueVibrationThreshold;
-    public float vibrationInterval;
+    //public float vibrationInterval;
 
    // private ARSessionOrigin arOrigin;
     private Ray ray;
@@ -63,7 +63,7 @@ public class ARTracker : MonoBehaviour
             ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (hit.transform.tag == "Clue")
+                if (hit.transform.CompareTag("Clue"))
                 {
                     InSightAction();
                 }
@@ -89,7 +89,7 @@ public class ARTracker : MonoBehaviour
         else
         {
             vibrating = true;
-            float interval = 0.05f;
+            float interval = distanceToClosestClue / clueVibrationThreshold;
             WaitForSeconds wait = new WaitForSeconds(interval);
             float t;
 
@@ -99,13 +99,13 @@ public class ARTracker : MonoBehaviour
                 yield return wait;
             }
 
-            yield return new WaitForSeconds(0.4f);
+            //yield return new WaitForSeconds(2f);
 
-            for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
-            {
-                Handheld.Vibrate();
-                yield return wait;
-            }
+            //for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
+            //{
+            //    Handheld.Vibrate();
+            //    yield return wait;
+            //}
             vibrating = false;
             yield break;
         }
@@ -118,11 +118,17 @@ public class ARTracker : MonoBehaviour
         float currentLatInMeters = (currentLocation.Lat - startingLocation.Lat) * scaleApprox.Lat;
         float currentLonInMeters = (currentLocation.Lon - startingLocation.Lon) * scaleApprox.Lon;
 
+        DebugText.text = "Clue distances: "; //----------- ONLY FOR DEBUG
+
         foreach (ClueMarker cm in clues.Items)
         {
             float latDist = cm.LatInMeters - currentLatInMeters;
             float lonDist = cm.LonInMeters - currentLonInMeters;
             float dist2 = lonDist * lonDist + latDist * latDist;
+
+            //----------- ONLY FOR DEBUG
+            float sqrtdist = (float)Math.Sqrt(dist2);
+            DebugText.text += "\n" + sqrtdist;
 
             if (dist2 < closestDistance2 || closestDistance2 == -1)
             {
@@ -132,7 +138,7 @@ public class ARTracker : MonoBehaviour
         };
 
         distanceToClosestClue = (float)Math.Sqrt(closestDistance2);
-        DebugText.text = "Distance = " + distanceToClosestClue; //DEBUG TEXT
+        DebugText.text += "\nClosest distance = " + distanceToClosestClue; //DEBUG TEXT
     }
 
     private void InSightAction()
