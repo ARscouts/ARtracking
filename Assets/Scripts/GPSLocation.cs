@@ -26,6 +26,10 @@ public class GPSLocation : MonoBehaviour
         {
             Permission.RequestUserPermission(Permission.FineLocation);
             dialog = new GameObject();
+        } else
+        {
+            Input.location.Start();
+            locationServiceStarted = true;
         }
 #endif
     }
@@ -47,13 +51,12 @@ public class GPSLocation : MonoBehaviour
             if (!locationServiceStarted)
             {
                 StartCoroutine(StartLocationService());
-                locationServiceStarted = true;
             }
             if (dialog != null)
             {
                 Destroy(dialog);
             }
-
+            locationServiceStarted = true;
         }
 #endif
     }
@@ -90,8 +93,6 @@ public class GPSLocation : MonoBehaviour
             //textLonLat.text = "Location service status: Failed";
         }
 
-        locationServiceStarted = true;
-
         startLocation.Lon = Input.location.lastData.longitude;
         startLocation.Lat = Input.location.lastData.latitude;
 
@@ -106,19 +107,24 @@ public class GPSLocation : MonoBehaviour
         {
             currentLocation.Lon = Input.location.lastData.longitude;
             currentLocation.Lat = Input.location.lastData.latitude;
+            Debug.LogWarning("Got Location " + currentLocation.Lon + " " + currentLocation.Lat);
         } else 
         {
-            //Debug.LogWarning("Can't get current location: " + Input.location.status);
+            Debug.LogWarning("Can't get current location: " + Input.location.status);
         }
 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (locationServiceStarted)
         {
             UpdateLocation();
+           //Debug.LogWarning("Location Updated");
+        } else
+        {
+            Debug.LogWarning("Service Not Started");
         }
     }
 }
