@@ -37,10 +37,11 @@ public class GameManager : MonoBehaviour
     public ClueRuntimeSet FoundClues;
     public Text DebugText;
     public Text MessageBox;
+    public Text ClueCountText;
 
     //public FloatVariable maxTrackingDistance; //Area of placed clues
 
-    private int cluesFoundCount = 0; //current state of the game maybe will be useful
+    private int cluesFoundCount = 0;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        ClueCountText.text = "Clues found: " + cluesFoundCount;
     }
 
     public void StartGame()
@@ -121,24 +123,25 @@ public class GameManager : MonoBehaviour
         cm.gameObject.SetActive(false);
 
         cluesFoundCount++;
+        MessageBox.text = "Clues found: " + cluesFoundCount;
         if (cluesFoundCount >= requiredAmountOfClues)
         {
-            CurrentGameState = GameState.GS_ANIMAL_TRACKING;
+            CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
             GenerateAnimalEvent.Raise();
-            MessageBox.text = "Animal is close!";
+            //MessageBox.text = "Animal is close!";
         }
         else
         {
             CurrentGameState = GameState.GS_CLUE_TRACKING;
         }
         //Debug.LogWarning("Clues found: " + cluesFoundCount);
-        MessageBox.text = "Clues found: " + cluesFoundCount;
     }
 
     public void AnimalFound()
     {
         CurrentGameState = GameState.GS_GAME_OVER;
         GameOverEvent.Raise();
+        GameOver();
     }
 
     private double ToRadian(double degrees)
@@ -160,5 +163,6 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         CurrentGameState = GameState.GS_GAME_OVER;
+        MessageBox.text = "Good job, you won!";
     }
 }

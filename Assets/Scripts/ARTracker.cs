@@ -12,6 +12,7 @@ public class ARTracker : MonoBehaviour
     public GameManager GameManager;
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
+    public GameEvent AnimalFoundEvent;
     public ClueMarkerPassableEvent ClueFoundEvent;
     public ClueMarkerPassableEvent ClueCaptureBegin;
 
@@ -65,16 +66,18 @@ public class ARTracker : MonoBehaviour
                 StartCoroutine(Vibrate());
             }
         }
-        else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
+        else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE || GameManager.CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL) 
         {
-            MessageBox.text = "A clue is very near!";
             //----------- Here we look for clue objects via raycast
             ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.transform.CompareTag("Clue"))
                 {
-                    InSightAction();
+                    ClueInSightAction();
+                } else if (hit.transform.CompareTag("Animal"))
+                {
+                    AnimalInSightAction();
                 }
                 else
                 {
@@ -90,6 +93,25 @@ public class ARTracker : MonoBehaviour
         }
 
         //----------- Take the closest clue and vibrate depending on distance
+    }
+
+    private void AnimalInSightAction()
+    {
+        if (!clueSighted)
+        {
+            ClueInSightEvent.Raise();
+            //Debug.LogWarning("############## FOUND A CLUE");
+            clueSighted = true;
+        }
+        float timeElapsed = timeThisFrame - timeLastFrame;
+        loadingBarFill.Value += timeElapsed / timeToAquireClue;
+
+        if (loadingBarFill.Value >= 1.0f)
+        {
+            clueSighted = false;
+            AnimalFoundEvent.Raise();
+            ResetLoadingBar();
+        }
     }
 
     private IEnumerator Vibrate()
@@ -152,7 +174,7 @@ public class ARTracker : MonoBehaviour
         DebugText.text += "\nClosest distance = " + distanceToClosestClue; //DEBUG TEXT
     }
 
-    private void InSightAction()
+    private void ClueInSightAction()
     {
         if (!clueSighted)
         {

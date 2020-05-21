@@ -577,6 +577,7 @@ GameObject:
   - component: {fileID: 719470526}
   - component: {fileID: 719470529}
   - component: {fileID: 719470528}
+  - component: {fileID: 719470530}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -604,11 +605,12 @@ MonoBehaviour:
   GenerateAnimalEvent: {fileID: 11400000, guid: 02e850a8c131be145886e8f671edcbe3,
     type: 2}
   GameOverEvent: {fileID: 11400000, guid: 30f28cbadcc2f534abdd6608cbd8eb4b, type: 2}
-  requiredAmountOfClues: 5
+  requiredAmountOfClues: 2
   ClueMarkerSet: {fileID: 11400000, guid: 251581ba89c9df84abe0e887c18b00a5, type: 2}
   FoundClues: {fileID: 11400000, guid: a62f69420a8066a4db56c0fddd5f1db8, type: 2}
   DebugText: {fileID: 2099057527}
   MessageBox: {fileID: 101064267}
+  ClueCountText: {fileID: 2029589122}
 --- !u!4 &719470527
 Transform:
   m_ObjectHideFlags: 0
@@ -669,6 +671,33 @@ MonoBehaviour:
       - m_Target: {fileID: 719470526}
         m_MethodName: StartClueCapturePhase
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &719470530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719470525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd0ef48ed1de64ab579cdce5ee8418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: e3c771bb0250dd249828b766aeed6818, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 719470526}
+        m_MethodName: AnimalFound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -902,6 +931,7 @@ GameObject:
   - component: {fileID: 740523259}
   - component: {fileID: 740523260}
   - component: {fileID: 740523261}
+  - component: {fileID: 740523262}
   m_Layer: 0
   m_Name: ClueSpawner
   m_TagString: Untagged
@@ -962,17 +992,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64574a218813f743919e75bc407d9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 579910735}
+  Camera: {fileID: 579910735}
   currentLocation: {fileID: 11400000, guid: 58eb6e023a482f743b74e47abf59aba3, type: 2}
   scaleApprox: {fileID: 11400000, guid: d9b53ff714362ee45bc487416d20feae, type: 2}
   maxTrackingDistance: {fileID: 11400000, guid: 53d734027f9f9e545abcda185bc2c022,
     type: 2}
   clueCount: {fileID: 11400000, guid: 1baff76a570160c4bb760635c6271e9d, type: 2}
-  clueMarkerPrefab: {fileID: 8240630923353296542, guid: 60d15f21da861244da0f2c3ad2ee399c,
+  ClueMarkerPrefab: {fileID: 8240630923353296542, guid: 60d15f21da861244da0f2c3ad2ee399c,
     type: 3}
-  FoxCluePrefab: {fileID: 4933476580710301808, guid: 3776f6a57012e894785d0127b4f85eef,
+  AnimalMarkerPrefab: {fileID: 1926810555602087254, guid: bc1158765beafa647b323839fcaa3bcc,
     type: 3}
-  FoxPrefab: {fileID: -927199367670048503, guid: 4a8962d46836a62408067c9480230e96,
+  FoxCluePrefab: {fileID: 6062736256126791154, guid: 7c91ad52c8cb05646b0071683bb6b21e,
+    type: 3}
+  FoxPrefab: {fileID: 2435896820272913643, guid: 6f9c26b823e8b584293fbe95de9a0739,
     type: 3}
   MessageBox: {fileID: 101064267}
 --- !u!114 &740523261
@@ -994,6 +1026,33 @@ MonoBehaviour:
       - m_Target: {fileID: 740523260}
         m_MethodName: SpawnClueInARScene
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &740523262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740523257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd0ef48ed1de64ab579cdce5ee8418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 02e850a8c131be145886e8f671edcbe3, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 740523260}
+        m_MethodName: SpawnAnimal
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1271,6 +1330,7 @@ RectTransform:
   - {fileID: 101064266}
   - {fileID: 721450597}
   - {fileID: 1533912212}
+  - {fileID: 2029589121}
   m_Father: {fileID: 1360345648}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1728,6 +1788,8 @@ GameObject:
   - component: {fileID: 1360345651}
   - component: {fileID: 1360345652}
   - component: {fileID: 1360345653}
+  - component: {fileID: 1360345654}
+  - component: {fileID: 1360345655}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -1844,6 +1906,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Event: {fileID: 11400000, guid: 5a9b649a5c094524982bb0b50fed0af6, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1533912211}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1360345654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360345647}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd0ef48ed1de64ab579cdce5ee8418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 30f28cbadcc2f534abdd6608cbd8eb4b, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 721450596}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1360345655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360345647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cfd0ef48ed1de64ab579cdce5ee8418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: e3c771bb0250dd249828b766aeed6818, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -2115,6 +2231,7 @@ MonoBehaviour:
   GameManager: {fileID: 719470526}
   ClueInSightEvent: {fileID: 11400000, guid: 8cf47ce1e1d058349a40e893e12cabc5, type: 2}
   LostSightEvent: {fileID: 11400000, guid: 029773408aaa43c4483aacf8e9b39ef3, type: 2}
+  AnimalFoundEvent: {fileID: 11400000, guid: e3c771bb0250dd249828b766aeed6818, type: 2}
   ClueFoundEvent: {fileID: 11400000, guid: 5a9b649a5c094524982bb0b50fed0af6, type: 2}
   ClueCaptureBegin: {fileID: 11400000, guid: 60922c77b9ce9d34ebb73acef4ce6066, type: 2}
   loadingBarFill: {fileID: 11400000, guid: 2af7a085ba1e9ff4abcd32d49ca23dda, type: 2}
@@ -2323,7 +2440,95 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029589120}
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
+--- !u!1 &2029589120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2029589121}
+  - component: {fileID: 2029589123}
+  - component: {fileID: 2029589122}
+  m_Layer: 0
+  m_Name: Clue Count Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2029589121
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029589120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1020077839}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -77.61, y: 69.1}
+  m_SizeDelta: {x: 398, y: 37.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2029589122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029589120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0.87002325, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 32
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Clues found
+--- !u!222 &2029589123
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029589120}
+  m_CullTransparentMesh: 0
 --- !u!1 &2099057525
 GameObject:
   m_ObjectHideFlags: 0
