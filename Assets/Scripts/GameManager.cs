@@ -63,6 +63,15 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         ClueCountText.text = "Clues found: " + cluesFoundCount;
+
+        if (CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
+        {
+            MessageBox.text = "A clue is very close!";
+        }
+        else if (CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL)
+        {
+            MessageBox.text = "Animal is very close!";
+        }
     }
 
     public void StartGame()
