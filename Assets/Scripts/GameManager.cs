@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
 
 public enum GameState
 {
@@ -18,7 +19,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public GameState CurrentGameState { get; set; } //AFTER DEBUGGING SET -> PRIVATE SET
+    public GameState CurrentGameState { get; private set; } //AFTER DEBUGGING SET -> PRIVATE SET
 
     public LocationVariable startLocation;
     public LocationVariable currentLocation;
@@ -33,11 +34,14 @@ public class GameManager : MonoBehaviour
 
     //Zmiany dla funkcji IsClueNear()
     public ClueRuntimeSet ClueMarkerSet;
+    public ClueRuntimeSet FoundClues;
     public Text DebugText;
+    public Text MessageBox;
+    public Text ClueCountText;
 
     //public FloatVariable maxTrackingDistance; //Area of placed clues
 
-    private int cluesFoundCount = 0; //current state of the game maybe will be useful
+    private int cluesFoundCount = 0;
 
     private void Awake()
     {
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        ClueCountText.text = "Clues found: " + cluesFoundCount;
     }
 
     public void StartGame()
@@ -112,21 +117,31 @@ public class GameManager : MonoBehaviour
         //Debug.LogWarning("Approx distance between 0.001 degrees Lon: " + scaleApprox.Lon);
     }
 
-    public void ClueFound()
+    public void ClueFound(ClueMarker cm)
     {
+        FoundClues.Add(cm);
+        cm.gameObject.SetActive(false);
+
         cluesFoundCount++;
+        MessageBox.text = "Clues found: " + cluesFoundCount;
         if (cluesFoundCount >= requiredAmountOfClues)
         {
-            CurrentGameState = GameState.GS_ANIMAL_TRACKING;
+            CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
             GenerateAnimalEvent.Raise();
+            //MessageBox.text = "Animal is close!";
         }
-        Debug.LogWarning("Clues found: " + cluesFoundCount);
+        else
+        {
+            CurrentGameState = GameState.GS_CLUE_TRACKING;
+        }
+        //Debug.LogWarning("Clues found: " + cluesFoundCount);
     }
 
     public void AnimalFound()
     {
         CurrentGameState = GameState.GS_GAME_OVER;
         GameOverEvent.Raise();
+        GameOver();
     }
 
     private double ToRadian(double degrees)
@@ -137,5 +152,17 @@ public class GameManager : MonoBehaviour
     private void GenerateClues()
     {
         GenerateCluesEvent.Raise();
+    }
+
+    public void StartClueCapturePhase(ClueMarker clue)
+    {
+        CurrentGameState = GameState.GS_CLOSE_TO_CLUE;
+        //Spawn clue
+    }
+
+    public void GameOver()
+    {
+        CurrentGameState = GameState.GS_GAME_OVER;
+        MessageBox.text = "Good job, you won!";
     }
 }

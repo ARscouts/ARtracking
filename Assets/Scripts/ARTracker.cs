@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
@@ -11,7 +12,10 @@ public class ARTracker : MonoBehaviour
     public GameManager GameManager;
     public GameEvent ClueInSightEvent;
     public GameEvent LostSightEvent;
-    public GameEvent ClueFoundEvent;
+    public GameEvent AnimalFoundEvent;
+    public ClueMarkerPassableEvent ClueFoundEvent;
+    public ClueMarkerPassableEvent ClueCaptureBegin;
+
     public FloatVariable loadingBarFill;
     public ClueRuntimeSet clues;
     public LocationVariable startingLocation;
@@ -19,7 +23,8 @@ public class ARTracker : MonoBehaviour
     public LocationVariable scaleApprox;
 
     public float timeToAquireClue;
-    public float clueVibrationThreshold;
+    public float clueVibrationDistanceThreshold;
+    public float distanceToStartClueCapture; //should be much smaller than clueVibrationDistanceThreshold
     //public float vibrationInterval;
 
    // private ARSessionOrigin arOrigin;
@@ -33,11 +38,13 @@ public class ARTracker : MonoBehaviour
     private bool vibrating = false;
 
     public Text DebugText;
+    public Text MessageBox;
 
     // Start is called before the first frame update
     void Start()
     {
         //arOrigin = FindObjectOfType<ARSessionOrigin>();
+        ResetLoadingBar();
     }
 
     // Update is called once per frame
@@ -50,22 +57,27 @@ public class ARTracker : MonoBehaviour
         if (GameManager.CurrentGameState == GameState.GS_CLUE_TRACKING)
         {
             UpdateClosestClue();
-
-            if (distanceToClosestClue <= clueVibrationThreshold)
+            if (distanceToClosestClue <= distanceToStartClueCapture)
+            {
+                ClueCaptureBegin.Raise((ClueMarker)closestClue);
+            }
+            else if (distanceToClosestClue <= clueVibrationDistanceThreshold)
             {
                 StartCoroutine(Vibrate());
             }
         }
-        else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
+        else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE || GameManager.CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL) 
         {
-
             //----------- Here we look for clue objects via raycast
             ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.transform.CompareTag("Clue"))
                 {
-                    InSightAction();
+                    ClueInSightAction();
+                } else if (hit.transform.CompareTag("Animal"))
+                {
+                    AnimalInSightAction();
                 }
                 else
                 {
@@ -83,19 +95,40 @@ public class ARTracker : MonoBehaviour
         //----------- Take the closest clue and vibrate depending on distance
     }
 
+    private void AnimalInSightAction()
+    {
+        if (!clueSighted)
+        {
+            ClueInSightEvent.Raise();
+            //Debug.LogWarning("############## FOUND A CLUE");
+            clueSighted = true;
+        }
+        float timeElapsed = timeThisFrame - timeLastFrame;
+        loadingBarFill.Value += timeElapsed / timeToAquireClue;
+
+        if (loadingBarFill.Value >= 1.0f)
+        {
+            clueSighted = false;
+            AnimalFoundEvent.Raise();
+            ResetLoadingBar();
+        }
+    }
+
     private IEnumerator Vibrate()
     {
         if (vibrating) yield break;
         else
         {
             vibrating = true;
-            float interval = distanceToClosestClue / clueVibrationThreshold;
+            float interval = distanceToClosestClue / clueVibrationDistanceThreshold;
             WaitForSeconds wait = new WaitForSeconds(interval);
             float t;
-
             for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
             {
+                MessageBox.text = "Vibrating!";
                 Handheld.Vibrate();
+                yield return wait;
+                MessageBox.text = "";
                 yield return wait;
             }
 
@@ -141,7 +174,7 @@ public class ARTracker : MonoBehaviour
         DebugText.text += "\nClosest distance = " + distanceToClosestClue; //DEBUG TEXT
     }
 
-    private void InSightAction()
+    private void ClueInSightAction()
     {
         if (!clueSighted)
         {
@@ -155,8 +188,8 @@ public class ARTracker : MonoBehaviour
         if (loadingBarFill.Value >= 1.0f)
         {
             clueSighted = false;
-            ClueFoundEvent.Raise();
-            resetLoadingBar();
+            ClueFoundEvent.Raise(closestClue);
+            ResetLoadingBar();
         }
     }
 
@@ -171,12 +204,12 @@ public class ARTracker : MonoBehaviour
             {
                 clueSighted = false;
                 LostSightEvent.Raise();
-                resetLoadingBar();
+                ResetLoadingBar();
             }
         }
     }
 
-    public void resetLoadingBar()
+    public void ResetLoadingBar()
     {
         loadingBarFill.Value = 0.0f;
     }
