@@ -1553,6 +1553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 943522619}
   Object1: {fileID: 1216695100}
+  ARplane_my: {fileID: 0}
 --- !u!135 &1216695097
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2296,13 +2297,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667141899}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c8acd74acfbc2443a860239c856ca8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 579910739}
   Object1: {fileID: 1667141901}
+  ARplane_my: {fileID: 1688523845835670660, guid: 4bed3c39593ff7848818f6f303b89987,
+    type: 3}
 --- !u!1 &1900243962
 GameObject:
   m_ObjectHideFlags: 0
@@ -2357,7 +2360,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900243962}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab0e80cee9cc1d44928bfe488dd1e2d, type: 3}
   m_Name: 
