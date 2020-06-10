@@ -14,6 +14,7 @@ public class GPSLocation : MonoBehaviour
     //public float currentLatitude;
     public LocationVariable startLocation;
     public LocationVariable currentLocation;
+    public FloatVariable currentCompass;
     public Text DebugText;
 
     GameObject dialog = null;
@@ -123,7 +124,12 @@ public class GPSLocation : MonoBehaviour
         if (locationServiceStarted)
         {
             UpdateLocation();
-           //Debug.LogWarning("Location Updated");
+            //Debug.LogWarning("Location Updated");
+
+            Input.compass.enabled = true;
+            currentCompass.SetValue(Input.compass.trueHeading);
+           // DebugText.text = " " + compass;
+
         } else
         {
             Debug.LogWarning("Service Not Started");

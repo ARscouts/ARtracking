@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2eb7f809a542ae4f83ea34b6c791825, type: 3}
   m_Name: ClueCount
   m_EditorClassIdentifier: 
-  Value: 10
+  Value: 20

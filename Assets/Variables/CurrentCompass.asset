@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4a245d573f4454458484fd5ebf9df6b, type: 3}
-  m_Name: OnAnimalFound
+  m_Script: {fileID: 11500000, guid: 2900fc88e0ad56243a7fdbc9786a13c6, type: 3}
+  m_Name: CurrentCompass
   m_EditorClassIdentifier: 
+  Value: 0

@@ -3,5 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class ClueRuntimeSet : RuntimeSet<ClueMarker>
+public class AnimalRuntimeSet : RuntimeSet<AnimalMarker>
 {}
+

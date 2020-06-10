@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4191578189462361022}
   - component: {fileID: 1614632895873215410}
+  - component: {fileID: 8173260054012920834}
   m_Layer: 0
   m_Name: Fox
   m_TagString: Animal
@@ -45,6 +46,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.44, y: 0.26, z: 1}
   m_Center: {x: -0.11, y: 0.09, z: -0.12}
+--- !u!114 &8173260054012920834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2435896820272913643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f89a54c943b0e84dbe1f69645206448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Clues: {fileID: 11400000, guid: 592506c31a8f9b34188e52e71dd15b5e, type: 2}
 --- !u!1001 &4994141269473566089
 PrefabInstance:
   m_ObjectHideFlags: 0

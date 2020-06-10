@@ -9,10 +9,9 @@ public enum GameState
 {
     GS_GAME_START,
     GS_GAME_INITIALIZING,
-    GS_CLUE_TRACKING,
-    GS_CLOSE_TO_CLUE,
-    GS_ANIMAL_TRACKING,
-    GS_CLOSE_TO_ANIMAL,
+    GS_TRACKING,
+    //GS_CLOSE_TO_CLUE,
+    //GS_CLOSE_TO_ANIMAL,
     GS_GAME_OVER
 }
 
@@ -26,8 +25,9 @@ public class GameManager : MonoBehaviour
     public LocationVariable scaleApprox;
     public IntVariable clueCount;
 
-    public GameEvent GenerateCluesEvent;
-    public GameEvent GenerateAnimalEvent;
+    public GameEvent GenerateWorldEvent;
+    //public GameEvent GenerateAnimalEvent;
+    public GameEvent GameStartEvent;
     public GameEvent GameOverEvent;
 
     public int requiredAmountOfClues;
@@ -64,23 +64,24 @@ public class GameManager : MonoBehaviour
     {
         ClueCountText.text = "Clues found: " + cluesFoundCount;
 
-        if (CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
-        {
-            MessageBox.text = "A clue is very close!";
-        }
-        else if (CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL)
-        {
-            MessageBox.text = "Animal is very close!";
-        }
+        //if (CurrentGameState == GameState.GS_CLOSE_TO_CLUE)
+        //{
+        //    MessageBox.text = "A clue is very close!";
+        //}
+        //else if (CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL)
+        //{
+        //    MessageBox.text = "Animal is very close!";
+        //}
     }
 
     public void StartGame()
     {
         CurrentGameState = GameState.GS_GAME_INITIALIZING;
 
+        GameStartEvent.Raise();
         startLocation.SetValue(currentLocation);
         GenerateWorld();
-        CurrentGameState = GameState.GS_CLUE_TRACKING;
+        CurrentGameState = GameState.GS_TRACKING;
         //Game is in tracking state
     }
 
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
         ApproximateDistance();
 
         //create game area
-        GenerateClues();
+        GenerateWorldEvent.Raise();
     }
     
     private void ApproximateDistance() //approximates distance between 0.001 degrees
@@ -133,20 +134,20 @@ public class GameManager : MonoBehaviour
 
         cluesFoundCount++;
         MessageBox.text = "Clues found: " + cluesFoundCount;
-        if (cluesFoundCount >= requiredAmountOfClues)
-        {
-            CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
-            GenerateAnimalEvent.Raise();
-            //MessageBox.text = "Animal is close!";
-        }
-        else
-        {
-            CurrentGameState = GameState.GS_CLUE_TRACKING;
-        }
+        //if (cluesFoundCount >= requiredAmountOfClues)
+        //{
+        //    CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
+        //    GenerateAnimalEvent.Raise();
+        //    //MessageBox.text = "Animal is close!";
+        //}
+        //else
+        //{
+        //    CurrentGameState = GameState.GS_CLUE_TRACKING;
+        //}
         //Debug.LogWarning("Clues found: " + cluesFoundCount);
     }
 
-    public void AnimalFound()
+    public void AnimalFound(AnimalMarker am)
     {
         CurrentGameState = GameState.GS_GAME_OVER;
         GameOverEvent.Raise();
@@ -158,16 +159,22 @@ public class GameManager : MonoBehaviour
         return degrees * (Math.PI / (double)180.0f);
     }
 
-    private void GenerateClues()
-    {
-        GenerateCluesEvent.Raise();
-    }
+    //private void GenerateClues()
+    //{
+    //    GenerateCluesEvent.Raise();
+    //}
 
-    public void StartClueCapturePhase(ClueMarker clue)
-    {
-        CurrentGameState = GameState.GS_CLOSE_TO_CLUE;
-        //Spawn clue
-    }
+    //public void StartClueCapturePhase(ARMarker cm)
+    //{
+    //    CurrentGameState = GameState.GS_CLOSE_TO_CLUE;
+    //    //Spawn clue
+    //}
+
+    //public void StartAnimalCapturePhase(ARMarker am)
+    //{
+    //    CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL;
+    //    //Spawn clue
+    //}
 
     public void GameOver()
     {

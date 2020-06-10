@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2d9788f4999224c94ec56f21dad0ea, type: 3}
-  m_Name: OnClueCaptureBegin
+  m_Script: {fileID: 11500000, guid: e064d07c32c127d4da8c66008fa27d89, type: 3}
+  m_Name: OnMarkerClose
   m_EditorClassIdentifier: 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,88 +8,213 @@ using UnityEngine.XR.ARFoundation;
 public class ClueSpawner : MonoBehaviour
 {
     private ARSessionOrigin arOrigin;
+
     public Camera Camera;
+
+    public LocationVariable startingLocation;
     public LocationVariable currentLocation;
     public LocationVariable scaleApprox;
+
     public FloatVariable maxTrackingDistance;
+    public FloatVariable minTrackingDistance;
+
     public IntVariable clueCount;
+
     public ClueMarker ClueMarkerPrefab;
     public AnimalMarker AnimalMarkerPrefab;
 
+    public ARMarkerRuntimeSet ActiveMarkers;
+    public ARMarkerRuntimeSet HiddenMarkers;
+    public AnimalRuntimeSet ActiveAnimalMarkers;
+    public GameObjectSet Animals;
+
     public GameObject FoxCluePrefab;
     public GameObject FoxPrefab;
-    //public ClueModel clueModelPrefab;
-    // Start is called before the first frame update
 
     public Text MessageBox;
 
+    // Start is called before the first frame update
     void Start()
     {
         arOrigin = FindObjectOfType<ARSessionOrigin>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GenerateTrackingObjects()
     {
-        
+        GenerateAnimal();
+        GenerateClues();
     }
 
-    public void GenerateClueObjects()
+    private void GenerateAnimal() //creates one instance of given animal marker prefab
     {
-        for (int i = 1; i <= clueCount.Value; i++)
+        RandomInSquare(minTrackingDistance.Value, maxTrackingDistance.Value, out float LatInMeters, out float LonInMeters);
+        AnimalMarker am = Instantiate(AnimalMarkerPrefab);
+
+        MetersToGeographic(LonInMeters, LatInMeters, out float lonGeo, out float latGeo);
+
+        am.SetLonLat(
+            lonGeo,
+            latGeo,
+            LonInMeters,
+            LatInMeters
+         );
+
+        //set to random animal
+        am.MeshPrefab = Animals.GetRandomItem();
+
+        //testing position
+        //am.transform.position = new Vector3(1.0f, 0.0f, 1.0f);
+    }
+
+    private void AttachClueToRandomAnimal(ClueMarker cm)
+    {
+        //get random animalmarker clue belongs to
+        cm.BelongsTo = ActiveAnimalMarkers.GetRandomItem();
+
+        //set rotation based on markers geo location
+        Vector3 AnimalGeoLocation = new Vector3(cm.BelongsTo.Lon, 0.0f, cm.BelongsTo.Lat);
+        Vector3 ClueGeoLocation = new Vector3(cm.Lon, 0.0f, cm.Lat);
+        
+        cm.transform.rotation = Quaternion.LookRotation(AnimalGeoLocation - ClueGeoLocation);
+
+        //get random clue from attached animal
+        Animal animal = (Animal)cm.BelongsTo.MeshPrefab.GetComponent(typeof(Animal));
+        if (animal)
         {
-            RandomInSquare(maxTrackingDistance.Value, out float LatInMeters, out float LonInMeters);
-            ClueMarker cm = Instantiate(ClueMarkerPrefab);
-            cm.SetLonLat(LonInMeters / scaleApprox.Lon + currentLocation.Lon, 
-                LatInMeters / scaleApprox.Lon + currentLocation.Lat,
-                LonInMeters,
-                LatInMeters);
-            //--------Name and tag of created clues
-            cm.name = "ClueObject" + i;
-
-            //--------Debug Text (comment if no need)
-
-            //DebugText.gameObject.SetActive(true);
-            //DebugText.text += "\nClueObject" + i + "\nLat: " + cm.Lon + "\nLon: " + cm.Lat;
-
-
-            //Debug.LogWarning("Added new clue locations - Lat: " + cm.Lat + " Lon: " + cm.Lon);
+            cm.MeshPrefab = animal.Clues.GetRandomItem();
+        } else
+        {
+            Debug.LogError("Couldn't find Animal MonoBehaviour component on " + cm.BelongsTo.name);
         }
     }
 
-    private void RandomInSquare(float maxTrackingDistance, out float LatInMeters, out float LonInMeters) //generates random coordinates in square area
+    private void GenerateClues() //generates clueCount amount of instances of ClueMarkerPrefab
     {
-        LatInMeters = Random.Range(-maxTrackingDistance, maxTrackingDistance);
-        LonInMeters = Random.Range(-maxTrackingDistance, maxTrackingDistance);
+        for (int i = 1; i <= clueCount.Value; i++)
+        {
+            RandomInSquare(0, maxTrackingDistance.Value, out float LatInMeters, out float LonInMeters);
+            ClueMarker cm = Instantiate(ClueMarkerPrefab);
+
+            MetersToGeographic(LonInMeters, LatInMeters, out float lonGeo, out float latGeo);
+            cm.SetLonLat(
+                lonGeo,
+                latGeo,
+                LonInMeters,
+                LatInMeters
+            );
+            //--------Name and tag of created clues
+            cm.name = "ClueObject" + i;
+
+            AttachClueToRandomAnimal(cm);
+        }
     }
 
-    public void SpawnClueInARScene(ClueMarker cm) //FOR NOW SPAWNS CLUE AHEAD OF THE PLAYER 
+    private void RandomInSquare(float minDistance, float maxDistance, out float LatInMeters, out float LonInMeters) //generates random coordinates in square area
     {
-        Ray ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-        Vector3 d = ray.direction;
-        d.y = -0.5f;
-        ray.direction = d;
+        LatInMeters = UnityEngine.Random.Range(-(maxDistance - minDistance), maxDistance - minDistance);
+        LonInMeters = UnityEngine.Random.Range(-(maxDistance - minDistance), maxDistance - minDistance);
+
+        LatInMeters = LatInMeters >= 0 ? LatInMeters + minDistance : LatInMeters - minDistance;
+        LonInMeters = LonInMeters >= 0 ? LonInMeters + minDistance : LonInMeters - minDistance;
+    }
+
+    public void SpawnMarkerInARScene(ARMarker am)
+    {
+        GeolocationSpawn(am);
+
+        if (!am.isSpawned)
+        {
+            Instantiate(am.MeshPrefab, am.transform);
+        } else
+        {
+            am.transform.GetChild(0).gameObject.SetActive(true);
+        }
+
+        HiddenMarkers.Remove(am);
+        ActiveMarkers.Add(am);
+        am.isSpawned = true;
         
-        cm.transform.SetPositionAndRotation(Camera.transform.position, Quaternion.Euler(0, 0, 0));
-        cm.transform.Translate(ray.direction * 4, Space.World);
 
-        Instantiate(FoxCluePrefab, cm.transform);
-        MessageBox.text = "A clue is very near!";
+        //TODO set height
+
+        ////spawns clue ahead of you
+        //Ray ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        //Vector3 d = ray.direction;
+        //d.y = 0.0f;
+        //ray.direction = d;
+
+        ////TODO fix
+        //am.transform.SetPositionAndRotation(Camera.transform.position, Quaternion.Euler(0, 0, 0));
+        //am.transform.Translate(ray.direction * 3, Space.World);
+        //am.transform.Translate(Vector3.down * 1.5f, Space.World);
+
+        //MessageBox.text = "A clue is very near!";
     }
 
-    public void SpawnAnimal()
+    public void HideMarkerInTheScene(ARMarker am)
     {
-        AnimalMarker am = Instantiate(AnimalMarkerPrefab);
+        if (am.isSpawned)
+        {
+            am.transform.GetChild(0).gameObject.SetActive(false);
 
-        Ray ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-        Vector3 d = ray.direction;
-        d.y = -0.5f;
-        ray.direction = d;
+            ActiveMarkers.Remove(am);
+            HiddenMarkers.Add(am);
+        }
+    }
 
-        am.transform.SetPositionAndRotation(Camera.transform.position, Quaternion.Euler(0, 0, 0));
-        am.transform.Translate(ray.direction * 4, Space.World);
+    private void GeolocationSpawn(ARMarker am)
+    {
+        // get current postion based on geolocation and change it to meters
+        GeographicToMeters(currentLocation, out float lonMeters, out float latMeters);
 
-        Instantiate(FoxPrefab, am.transform);
-        MessageBox.text = "Animal is very near!";
+        Vector3 animalVector = new Vector3(
+            am.LonInMeters - lonMeters,
+            -1.2f, //hard coded "ground" level
+            am.LatInMeters - latMeters
+        );
+
+        am.transform.position = Camera.transform.position;
+        am.transform.position += animalVector;
+    }
+
+    //public void SpawnAnimal()
+    //{
+    //    AnimalMarker am = Instantiate(AnimalMarkerPrefab);
+
+    //    Ray ray = Camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+    //    Vector3 d = ray.direction;
+    //    d.y = 0.0f;
+    //    ray.direction = d;
+
+    //    am.transform.SetPositionAndRotation(Camera.transform.position, Quaternion.Euler(0, 0, 0));
+    //    am.transform.Translate(ray.direction * 3, Space.World);
+    //    am.transform.Translate(Vector3.down * 1.5f, Space.World);
+
+    //    Instantiate(FoxPrefab, am.transform);
+    //    MessageBox.text = "Animal is very near!";
+    //}
+
+    private void GeographicToMeters(LocationVariable location, out float lonMeters, out float latMeters)
+    {
+        lonMeters = (location.Lon - startingLocation.Lon) * scaleApprox.Lon;
+        latMeters = (location.Lat - startingLocation.Lat) * scaleApprox.Lat;
+    }
+
+    private void GeographicToMeters(float lon, float lat, out float lonMeters, out float latMeters)
+    {
+        lonMeters = (lon - startingLocation.Lon) * scaleApprox.Lon;
+        latMeters = (lat - startingLocation.Lat) * scaleApprox.Lat;
+    }
+
+    private void MetersToGeographic(LocationVariable location, out float lonGeo, out float latGeo)
+    {
+        lonGeo = location.Lon / scaleApprox.Lon - startingLocation.Lon;
+        latGeo = location.Lat / scaleApprox.Lat - startingLocation.Lat;
+    }
+
+    private void MetersToGeographic(float lon, float lat, out float lonGeo, out float latGeo)
+    {
+        lonGeo = lon / scaleApprox.Lon - startingLocation.Lon;
+        latGeo = lat / scaleApprox.Lat - startingLocation.Lat;
     }
 }

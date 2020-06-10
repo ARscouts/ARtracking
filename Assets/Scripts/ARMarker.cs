@@ -9,16 +9,26 @@ public abstract class ARMarker : MonoBehaviour
     public float LonInMeters;
     public float LatInMeters;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public GameObject MeshPrefab;
 
+    //public ARMarkerRuntimeSet ActiveMarkers;
+    public ARMarkerRuntimeSet HiddenMarkers;
+    public ARMarkerRuntimeSet ActiveMarkers;
+    public ARMarkerRuntimeSet Markers;
+
+    public bool isSpawned = false;
+
+    protected void OnEnable()
+    {
+        Markers.Add(this);
+        HiddenMarkers.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void OnDisable()
     {
-
+        Markers.Remove(this);
+        HiddenMarkers.Remove(this);
+        ActiveMarkers.Remove(this);
     }
 
     public void SetLonLat(float lon, float lat)

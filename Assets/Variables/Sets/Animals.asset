@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4a245d573f4454458484fd5ebf9df6b, type: 3}
-  m_Name: OnAnimalFound
+  m_Script: {fileID: 11500000, guid: 9ef86942c6835114c891c5aba8eb639a, type: 3}
+  m_Name: Animals
   m_EditorClassIdentifier: 
+  Items:
+  - {fileID: 2435896820272913643, guid: 6f9c26b823e8b584293fbe95de9a0739, type: 3}
