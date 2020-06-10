@@ -137,11 +137,11 @@ public class ARTracker : MonoBehaviour
             float t;
             for (t = 0; t < 1; t += interval) // Change the end condition (t < 1) if you want
             {
-                MessageBox.text = "Vibrating!";
+                //MessageBox.text = "Vibrating!";
                 Handheld.Vibrate();
                 yield return wait;
-                MessageBox.text = "";
-                yield return wait;
+                //MessageBox.text = "";
+                //yield return wait;
             }
 
             //yield return new WaitForSeconds(2f);
@@ -235,11 +235,11 @@ public class ARTracker : MonoBehaviour
             markerSighted = false;
             if (hit.transform.CompareTag("Animal"))
             {
-                AnimalFoundEvent.Raise((AnimalMarker)closestMarker); //Raise animal found event
+                AnimalFoundEvent.Raise((AnimalMarker)hit.transform.parent.GetComponent(typeof(AnimalMarker))); //Raise animal found event
             }
             else if (hit.transform.CompareTag("Clue"))
             {
-                ClueFoundEvent.Raise((ClueMarker)closestMarker); //Raise clue found event
+                ClueFoundEvent.Raise((ClueMarker)hit.transform.parent.GetComponent(typeof(ClueMarker))); //Raise clue found event
             }
             CaptureCompleteEvent.Raise();
             ResetLoadingBar();

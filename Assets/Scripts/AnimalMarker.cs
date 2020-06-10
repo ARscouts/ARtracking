@@ -10,11 +10,13 @@ public class AnimalMarker : ARMarker
 
     private void OnEnable()
     {
+        base.OnEnable();
         RuntimeSet.Add(this);
     }
 
     private void OnDisable()
     {
+        base.OnDisable();
         RuntimeSet.Remove(this);
     }
 }
