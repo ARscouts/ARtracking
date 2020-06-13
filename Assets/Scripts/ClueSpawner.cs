@@ -17,6 +17,7 @@ public class ClueSpawner : MonoBehaviour
 
     public FloatVariable maxTrackingDistance;
     public FloatVariable minTrackingDistance;
+    public FloatVariable groundDistance;
 
     public IntVariable clueCount;
 
@@ -169,9 +170,10 @@ public class ClueSpawner : MonoBehaviour
 
         Vector3 animalVector = new Vector3(
             am.LonInMeters - lonMeters,
-            -1.2f, //hard coded "ground" level
+            groundDistance.Value, //hard coded "ground" level
             am.LatInMeters - latMeters
         );
+        //Debug.LogWarning(groundDistance.Value);
 
         am.transform.position = Camera.transform.position;
         am.transform.position += animalVector;

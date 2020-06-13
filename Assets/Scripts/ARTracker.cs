@@ -40,8 +40,6 @@ public class ARTracker : MonoBehaviour
     private float timeLastFrame;
     private float timeThisFrame;
     private float distanceToClosestMarker; //distance to closest clue power of 2
-    private float distanceToARMarker;
-    private ARMarker closestMarker;
 
     private bool vibrating = false;
 
@@ -61,6 +59,7 @@ public class ARTracker : MonoBehaviour
     {
         distanceToStartCapture2 = distanceToStartCapture * distanceToStartCapture;
 
+        //for calculating elapsed time for capture bar speed
         timeLastFrame = timeThisFrame;
         timeThisFrame = Time.timeSinceLevelLoad;
 
@@ -92,19 +91,6 @@ public class ARTracker : MonoBehaviour
                 NotInSightAction();
             }
         }
-        //else if (GameManager.CurrentGameState == GameState.GS_CLOSE_TO_CLUE || GameManager.CurrentGameState == GameState.GS_CLOSE_TO_ANIMAL) 
-        //{
-
-        //    if (distanceToARMarker >= 2 * distanceToStartCapture)
-        //    {
-        //        //MarkerTooFarEvent.Raise();
-        //    }
-        //    StartCoroutine(Vibrate(distanceToARMarker)); //change vibration to depend on inGame distance
-
-            
-        //}
-
-        //----------- Take the closest clue and vibrate depending on distance
     }
 
     //private void AnimalInSightAction()
@@ -188,15 +174,18 @@ public class ARTracker : MonoBehaviour
             if (dist2 < closestDistance2 || closestDistance2 == -1)
             {
                 closestDistance2 = dist2;
-                closestMarker = am;
             }
         }
+        DebugText.text += "\nActive markers:";
 
-        //check if got too far from any marker
+        if (activeMarkersCount > 0)
+        {
+            closestDistance2 = -1; //proritize active markers
+        }
+
         for (int i = activeMarkersCount - 1; i >= 0; i--)
         {
             ARMarker am = activeMarkers.Items[i];
-            closestDistance2 = -1;
 
             float dist2 = (float)Math.Pow(Vector3.Distance(Camera.transform.position, am.transform.position), 2);
 
@@ -204,6 +193,7 @@ public class ARTracker : MonoBehaviour
             float sqrtdist = (float)Math.Sqrt(dist2);
             DebugText.text += "\n" + sqrtdist;
 
+            //check if got too far from any marker
             if (dist2 > distanceToStartCapture2 + 5.0f) //to avoid problems with margin of error give it 5 more meters to stay in ARScene
             {
                 MarkerLostEvent.Raise(am);
@@ -211,7 +201,6 @@ public class ARTracker : MonoBehaviour
             else if (dist2 < closestDistance2 || closestDistance2 == -1)
             {
                 closestDistance2 = dist2;
-                closestMarker = am;
             }
         }
 
