@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         cm.gameObject.SetActive(false);
 
         cluesFoundCount++;
-        MessageBox.text = "You found " + cluesFoundCount + "clues";
+        MessageBox.text = "You found " + cluesFoundCount + " clues!";
         //if (cluesFoundCount >= requiredAmountOfClues)
         //{
         //    CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
