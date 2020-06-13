@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef86942c6835114c891c5aba8eb639a, type: 3}
+  m_Name: DeerClues
+  m_EditorClassIdentifier: 
+  Items:
+  - {fileID: 7545363001547628163, guid: f13b35bd43bd09847848bf3589490a09, type: 3}
