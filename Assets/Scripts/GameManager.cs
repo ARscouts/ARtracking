@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -39,6 +40,10 @@ public class GameManager : MonoBehaviour
     public Text MessageBox;
     public Text ClueCountText;
 
+    float timer;
+    public float timerLimit;
+    public GameObject YouWon;
+
     //public FloatVariable maxTrackingDistance; //Area of placed clues
 
     private int cluesFoundCount = 0;
@@ -58,6 +63,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         CurrentGameState = GameState.GS_GAME_START;
+        timerLimit = 5f;
     }
 
     private void Update()
@@ -133,7 +139,7 @@ public class GameManager : MonoBehaviour
         cm.gameObject.SetActive(false);
 
         cluesFoundCount++;
-        MessageBox.text = "Clues found: " + cluesFoundCount;
+        MessageBox.text = "You found " + cluesFoundCount + " clues!";
         //if (cluesFoundCount >= requiredAmountOfClues)
         //{
         //    CurrentGameState = GameState.GS_CLOSE_TO_ANIMAL; //for now it will jump imidiatly to animal close state
@@ -176,9 +182,22 @@ public class GameManager : MonoBehaviour
     //    //Spawn clue
     //}
 
+    public void TimerCheck()
+    {
+        timer -= 1f;
+        if (timer == 0)
+        {
+            CancelInvoke("TimerCheck");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
+
+    }
+
     public void GameOver()
     {
         CurrentGameState = GameState.GS_GAME_OVER;
-        MessageBox.text = "Good job, you won!";
+        YouWon.SetActive(true);
+        timer = timerLimit;
+        InvokeRepeating("TimerCheck", 1f, 1f);
     }
 }
