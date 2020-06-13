@@ -19,8 +19,8 @@ public class ARTracker : MonoBehaviour
     public ARMarkerPassableEvent MarkerCloseEvent;
     public ARMarkerPassableEvent MarkerLostEvent;
 
-    public ClueRuntimeSet clues;
-    public ARMarkerRuntimeSet markers;
+    //public ClueRuntimeSet clues; //useless in this class
+    //public ARMarkerRuntimeSet markers;
     public ARMarkerRuntimeSet activeMarkers;
     public ARMarkerRuntimeSet hiddenMarkers;
 
