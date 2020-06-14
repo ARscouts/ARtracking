@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameUIController : MonoBehaviour
 {
     public FloatVariable fillAmount;
-    public GameObject loadingBar;
+    //public GameObject loadingBar;
     public Image loadingBarFill;
 
     private void Update()

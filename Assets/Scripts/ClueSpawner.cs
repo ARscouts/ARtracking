@@ -7,7 +7,7 @@ using UnityEngine.XR.ARFoundation;
 
 public class ClueSpawner : MonoBehaviour
 {
-    private ARSessionOrigin arOrigin;
+    //private ARSessionOrigin arOrigin;
 
     public Camera Camera;
 
@@ -29,15 +29,15 @@ public class ClueSpawner : MonoBehaviour
     public AnimalRuntimeSet ActiveAnimalMarkers;
     public GameObjectSet Animals;
 
-    public GameObject FoxCluePrefab;
-    public GameObject FoxPrefab;
+    //public GameObject FoxCluePrefab;
+    //public GameObject FoxPrefab;
 
     public Text MessageBox;
 
     // Start is called before the first frame update
     void Start()
     {
-        arOrigin = FindObjectOfType<ARSessionOrigin>();
+        //arOrigin = FindObjectOfType<ARSessionOrigin>();
     }
 
     public void GenerateTrackingObjects()

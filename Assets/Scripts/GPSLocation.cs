@@ -15,7 +15,7 @@ public class GPSLocation : MonoBehaviour
     public LocationVariable startLocation;
     public LocationVariable currentLocation;
     public FloatVariable currentCompass;
-    public Text DebugText;
+    //public Text DebugText;
 
     GameObject dialog = null;
 
