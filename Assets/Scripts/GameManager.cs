@@ -31,12 +31,12 @@ public class GameManager : MonoBehaviour
     public GameEvent GameStartEvent;
     public GameEvent GameOverEvent;
 
-    public int requiredAmountOfClues;
+    //public int requiredAmountOfClues;
 
     //Zmiany dla funkcji IsClueNear()
-    public ClueRuntimeSet ClueMarkerSet;
+    //public ClueRuntimeSet ClueMarkerSet;
     public ClueRuntimeSet FoundClues;
-    public Text DebugText;
+    //public Text DebugText;
     public Text MessageBox;
     public Text ClueCountText;
 
